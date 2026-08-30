@@ -43,7 +43,7 @@ If asked to summarize, provide a brief overview of the strengths and weaknesses 
       );
     }
 
-    const result = streamText({
+    const result = await streamText({
       model,
       system: systemPrompt,
       messages,
