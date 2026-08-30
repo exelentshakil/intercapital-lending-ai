@@ -1,12 +1,44 @@
+'use client';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
-import { Bot, ArrowLeft, FileText, CheckCircle2, AlertCircle, Clock } from 'lucide-react';
+import { Bot, ArrowLeft, FileText, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import { useChat } from 'ai/react';
+import { useEffect, useRef } from 'react';
 
 export default function LoanDetailsPage({ params }: { params: { id: string } }) {
+  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
+    initialMessages: [
+      {
+        id: 'initial-1',
+        role: 'assistant',
+        content: "I've analyzed the file for LN-2026-104. The DSCR is strong at 1.35x and LTV is within guidelines at 67.5%.\n\n**Warning:** The Hazard Insurance expires in 15 days. You should condition for an updated policy before closing."
+      }
+    ]
+  });
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [messages]);
+
+  // Function to simulate Inngest event
+  const triggerExtraction = async () => {
+    try {
+      // In a real app, you would POST to an API route that calls inngest.send()
+      alert("Inngest Event Fired: 'loan/document.uploaded'. Background processing started!");
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <div className="flex flex-col h-screen bg-slate-50 overflow-hidden">
       {/* Topbar */}
@@ -21,7 +53,7 @@ export default function LoanDetailsPage({ params }: { params: { id: string } }) 
           </div>
         </div>
         <div className="flex gap-3">
-          <Button variant="outline" size="sm">Request Conditions</Button>
+          <Button variant="outline" size="sm" onClick={triggerExtraction}>Simulate Document Upload</Button>
           <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">Approve Loan</Button>
         </div>
       </header>
@@ -29,10 +61,10 @@ export default function LoanDetailsPage({ params }: { params: { id: string } }) 
       <div className="flex flex-1 overflow-hidden">
         {/* Main Content Area */}
         <main className="flex-1 overflow-auto p-6 space-y-6">
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full">
             
             {/* Left Column: Loan Data & Documents */}
-            <div className="col-span-2 space-y-6">
+            <div className="lg:col-span-2 space-y-6">
               
               <Card>
                 <CardHeader>
@@ -42,7 +74,7 @@ export default function LoanDetailsPage({ params }: { params: { id: string } }) 
                 <CardContent className="space-y-6">
                   
                   {/* Extracted Metrics */}
-                  <div className="grid grid-cols-4 gap-4">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div className="space-y-1">
                       <p className="text-sm font-medium text-slate-500">Subject Value (AVM)</p>
                       <p className="text-xl font-semibold">$1,850,000</p>
@@ -119,10 +151,10 @@ export default function LoanDetailsPage({ params }: { params: { id: string } }) 
             </div>
 
             {/* Right Column: AI Co-Pilot (The WOW Factor) */}
-            <div className="col-span-1 flex flex-col">
-              <Card className="flex-1 flex flex-col shadow-lg border-blue-200 relative overflow-hidden">
+            <div className="lg:col-span-1 flex flex-col h-[calc(100vh-120px)] lg:h-auto">
+              <Card className="flex-1 flex flex-col shadow-lg border-blue-200 relative overflow-hidden h-full">
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-indigo-500"></div>
-                <CardHeader className="bg-blue-50/50 pb-4 border-b">
+                <CardHeader className="bg-blue-50/50 pb-4 border-b shrink-0">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Bot className="h-5 w-5 text-blue-600" />
@@ -132,49 +164,63 @@ export default function LoanDetailsPage({ params }: { params: { id: string } }) 
                   </div>
                   <CardDescription>Ask questions about the loan file or request a summary.</CardDescription>
                 </CardHeader>
-                <CardContent className="flex-1 overflow-auto p-4 space-y-4 bg-slate-50">
+                
+                <CardContent ref={scrollRef} className="flex-1 overflow-auto p-4 space-y-4 bg-slate-50">
+                  {messages.map((m) => (
+                    <div key={m.id} className={`flex gap-3 ${m.role === 'user' ? 'flex-row-reverse' : ''}`}>
+                      <div className={`h-8 w-8 rounded-full flex items-center justify-center shrink-0 ${m.role === 'user' ? 'bg-slate-200' : 'bg-blue-100'}`}>
+                        {m.role === 'user' ? (
+                          <span className="text-xs font-medium text-slate-600">You</span>
+                        ) : (
+                          <Bot className="h-4 w-4 text-blue-600" />
+                        )}
+                      </div>
+                      <div className={`p-3 rounded-lg shadow-sm text-sm whitespace-pre-wrap max-w-[85%] ${
+                        m.role === 'user' 
+                          ? 'bg-blue-600 text-white rounded-tr-none' 
+                          : 'bg-white border text-slate-700 rounded-tl-none'
+                      }`}>
+                        {m.content}
+                      </div>
+                    </div>
+                  ))}
                   
-                  {/* Chat Messages */}
-                  <div className="flex gap-3">
-                    <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
-                      <Bot className="h-4 w-4 text-blue-600" />
+                  {isLoading && (
+                    <div className="flex gap-3">
+                      <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
+                        <Bot className="h-4 w-4 text-blue-600" />
+                      </div>
+                      <div className="bg-white border p-3 rounded-lg rounded-tl-none shadow-sm text-sm text-slate-700 flex items-center gap-2">
+                        <Loader2 className="h-4 w-4 animate-spin text-blue-600" /> Thinking...
+                      </div>
                     </div>
-                    <div className="bg-white border p-3 rounded-lg rounded-tl-none shadow-sm text-sm text-slate-700">
-                      I've analyzed the file for LN-2026-104. The DSCR is strong at 1.35x and LTV is within guidelines at 67.5%. 
-                      <br/><br/>
-                      <strong>Warning:</strong> The Hazard Insurance expires in 15 days. You should condition for an updated policy before closing.
-                    </div>
-                  </div>
-                  
-                  <div className="flex gap-3 flex-row-reverse">
-                    <div className="h-8 w-8 rounded-full bg-slate-200 flex items-center justify-center shrink-0">
-                      <span className="text-xs font-medium text-slate-600">You</span>
-                    </div>
-                    <div className="bg-blue-600 text-white p-3 rounded-lg rounded-tr-none shadow-sm text-sm">
-                      Who are the authorized signers for the borrowing entity?
-                    </div>
-                  </div>
-                  
-                  <div className="flex gap-3">
-                    <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
-                      <Bot className="h-4 w-4 text-blue-600" />
-                    </div>
-                    <div className="bg-white border p-3 rounded-lg rounded-tl-none shadow-sm text-sm text-slate-700">
-                      Based on the <strong>SmithLLC_OperatingAgreement.pdf</strong> (Page 4, Section 3.1), <strong>John Smith</strong> is the sole Managing Member and has 100% signing authority to encumber property. No other signatures are required.
-                    </div>
-                  </div>
-                  
+                  )}
                 </CardContent>
-                <CardFooter className="p-3 bg-white border-t mt-auto">
-                  <div className="relative w-full flex items-center">
+                
+                <CardFooter className="p-3 bg-white border-t mt-auto shrink-0">
+                  <form onSubmit={handleSubmit} className="relative w-full flex items-center">
                     <Textarea 
-                      placeholder="Ask the AI about this loan..." 
+                      value={input}
+                      onChange={handleInputChange}
+                      placeholder="Ask the AI about this loan (e.g. 'Who is the authorized signer?')" 
                       className="min-h-[44px] h-[44px] resize-none pr-12 py-3"
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                          e.preventDefault();
+                          // @ts-ignore
+                          handleSubmit(e);
+                        }
+                      }}
                     />
-                    <Button size="sm" className="absolute right-1 top-1 bottom-1 bg-blue-600 hover:bg-blue-700 rounded h-auto">
+                    <Button 
+                      type="submit" 
+                      size="sm" 
+                      disabled={isLoading || !input.trim()}
+                      className="absolute right-1 top-1 bottom-1 bg-blue-600 hover:bg-blue-700 rounded h-auto"
+                    >
                       Send
                     </Button>
-                  </div>
+                  </form>
                 </CardFooter>
               </Card>
             </div>
