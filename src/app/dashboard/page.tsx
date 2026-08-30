@@ -17,11 +17,11 @@ export default function DashboardPage() {
       {/* Sidebar */}
       <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col">
         <div className="p-4 border-b border-slate-800 flex items-center gap-2 text-white">
-          <Building className="h-6 w-6 text-blue-500" />
+          <Building className="h-6 w-6 text-indigo-500" />
           <span className="font-bold text-lg">InterCapital</span>
         </div>
         <nav className="flex-1 p-4 space-y-2">
-          <Link href="/dashboard" className="flex items-center gap-3 bg-blue-600/10 text-blue-400 px-3 py-2 rounded-md font-medium">
+          <Link href="/dashboard" className="flex items-center gap-3 bg-indigo-600/10 text-indigo-400 px-3 py-2 rounded-md font-medium">
             <Activity className="h-5 w-5" /> Pipeline
           </Link>
           <Link href="#" className="flex items-center gap-3 hover:bg-slate-800 px-3 py-2 rounded-md font-medium transition-colors">
@@ -42,7 +42,7 @@ export default function DashboardPage() {
             <Button variant="outline" size="sm" className="gap-2">
               <Upload className="h-4 w-4" /> Bulk Upload
             </Button>
-            <Button size="sm" className="bg-blue-600 hover:bg-blue-700 gap-2">
+            <Button size="sm" className="bg-indigo-600 hover:bg-indigo-700 gap-2">
               <Plus className="h-4 w-4" /> New Loan
             </Button>
           </div>
@@ -58,7 +58,7 @@ export default function DashboardPage() {
                 <CardTitle className="text-3xl">24</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-emerald-600 font-medium">+3 this week</p>
+                <p className="text-sm text-teal-600 font-medium">+3 this week</p>
               </CardContent>
             </Card>
             <Card>
@@ -70,13 +70,13 @@ export default function DashboardPage() {
                 <p className="text-sm text-slate-500 font-medium">Avg size: $1.7M</p>
               </CardContent>
             </Card>
-            <Card className="bg-blue-600 text-white border-blue-700">
+            <Card className="bg-indigo-600 text-white border-indigo-700">
               <CardHeader className="pb-2">
-                <CardDescription className="text-blue-100">AI Documents Processed</CardDescription>
+                <CardDescription className="text-indigo-100">AI Documents Processed</CardDescription>
                 <CardTitle className="text-3xl">1,240</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-blue-100 font-medium">14 hrs saved this week</p>
+                <p className="text-sm text-indigo-100 font-medium">14 hrs saved this week</p>
               </CardContent>
             </Card>
           </div>
@@ -103,7 +103,7 @@ export default function DashboardPage() {
                   <tbody>
                     {pipeline.map((loan) => (
                       <tr key={loan.id} className="border-b last:border-0 hover:bg-slate-50/50 transition-colors">
-                        <td className="px-4 py-4 font-medium text-blue-600">{loan.id}</td>
+                        <td className="px-4 py-4 font-medium text-indigo-600">{loan.id}</td>
                         <td className="px-4 py-4">
                           <div className="font-medium text-slate-900">{loan.property}</div>
                           <div className="text-slate-500 text-xs">{loan.borrower}</div>
@@ -111,21 +111,21 @@ export default function DashboardPage() {
                         <td className="px-4 py-4 text-slate-700">{loan.amount}</td>
                         <td className="px-4 py-4">
                           <Badge variant={loan.status === 'Approved' ? 'default' : loan.status === 'Underwriting' ? 'secondary' : 'outline'}
-                            className={loan.status === 'Approved' ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-100' : ''}>
+                            className={loan.status === 'Approved' ? 'bg-teal-100 text-teal-800 hover:bg-teal-100' : ''}>
                             {loan.status}
                           </Badge>
                         </td>
                         <td className="px-4 py-4">
                           <div className="flex items-center gap-2">
                             <div className="w-full bg-slate-200 rounded-full h-2.5 max-w-[100px]">
-                              <div className={`h-2.5 rounded-full ${loan.aiScore > 90 ? 'bg-emerald-500' : loan.aiScore > 80 ? 'bg-blue-500' : 'bg-amber-500'}`} style={{ width: `${loan.aiScore}%` }}></div>
+                              <div className={`h-2.5 rounded-full ${loan.aiScore > 90 ? 'bg-teal-500' : loan.aiScore > 80 ? 'bg-indigo-500' : 'bg-amber-500'}`} style={{ width: `${loan.aiScore}%` }}></div>
                             </div>
                             <span className="text-xs font-medium text-slate-600">{loan.aiScore}</span>
                           </div>
                         </td>
                         <td className="px-4 py-4 text-right">
                           <Link href={`/dashboard/loan/${loan.id}`}>
-                            <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700 hover:bg-blue-50">Review</Button>
+                            <Button variant="ghost" size="sm" className="text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50">Review</Button>
                           </Link>
                         </td>
                       </tr>

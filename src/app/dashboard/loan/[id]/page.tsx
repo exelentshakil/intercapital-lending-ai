@@ -49,12 +49,12 @@ export default function LoanDetailsPage({ params }: { params: { id: string } }) 
           </Link>
           <div className="flex items-center gap-3">
             <h1 className="text-xl font-semibold text-slate-800">Loan: LN-2026-104</h1>
-            <Badge variant="secondary" className="bg-blue-100 text-blue-800 hover:bg-blue-100">Underwriting</Badge>
+            <Badge variant="secondary" className="bg-indigo-100 text-indigo-800 hover:bg-indigo-100">Underwriting</Badge>
           </div>
         </div>
         <div className="flex gap-3">
           <Button variant="outline" size="sm" onClick={triggerExtraction}>Simulate Document Upload</Button>
-          <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">Approve Loan</Button>
+          <Button size="sm" className="bg-teal-600 hover:bg-teal-700">Approve Loan</Button>
         </div>
       </header>
 
@@ -85,11 +85,11 @@ export default function LoanDetailsPage({ params }: { params: { id: string } }) 
                     </div>
                     <div className="space-y-1">
                       <p className="text-sm font-medium text-slate-500">Calculated LTV</p>
-                      <p className="text-xl font-semibold text-emerald-600">67.5%</p>
+                      <p className="text-xl font-semibold text-teal-600">67.5%</p>
                     </div>
                     <div className="space-y-1">
                       <p className="text-sm font-medium text-slate-500">Calculated DSCR</p>
-                      <p className="text-xl font-semibold text-emerald-600">1.35x</p>
+                      <p className="text-xl font-semibold text-teal-600">1.35x</p>
                     </div>
                   </div>
 
@@ -101,30 +101,30 @@ export default function LoanDetailsPage({ params }: { params: { id: string } }) 
                     <div className="space-y-3">
                       <div className="flex items-center justify-between p-3 border rounded-lg bg-white">
                         <div className="flex items-center gap-3">
-                          <div className="bg-blue-100 p-2 rounded">
-                            <FileText className="h-4 w-4 text-blue-600" />
+                          <div className="bg-indigo-100 p-2 rounded">
+                            <FileText className="h-4 w-4 text-indigo-600" />
                           </div>
                           <div>
                             <p className="text-sm font-medium text-slate-900">Multifamily_RentRoll_2026.pdf</p>
                             <p className="text-xs text-slate-500">Extracted Gross Income: $185,000/yr</p>
                           </div>
                         </div>
-                        <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-200 gap-1">
+                        <Badge variant="outline" className="bg-teal-50 text-teal-700 border-teal-200 gap-1">
                           <CheckCircle2 className="h-3 w-3" /> Processed
                         </Badge>
                       </div>
                       
                       <div className="flex items-center justify-between p-3 border rounded-lg bg-white">
                         <div className="flex items-center gap-3">
-                          <div className="bg-blue-100 p-2 rounded">
-                            <FileText className="h-4 w-4 text-blue-600" />
+                          <div className="bg-indigo-100 p-2 rounded">
+                            <FileText className="h-4 w-4 text-indigo-600" />
                           </div>
                           <div>
                             <p className="text-sm font-medium text-slate-900">SmithLLC_OperatingAgreement.pdf</p>
                             <p className="text-xs text-slate-500">Extracted: John Smith (100% Member)</p>
                           </div>
                         </div>
-                        <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-200 gap-1">
+                        <Badge variant="outline" className="bg-teal-50 text-teal-700 border-teal-200 gap-1">
                           <CheckCircle2 className="h-3 w-3" /> Processed
                         </Badge>
                       </div>
@@ -152,12 +152,12 @@ export default function LoanDetailsPage({ params }: { params: { id: string } }) 
 
             {/* Right Column: AI Co-Pilot (The WOW Factor) */}
             <div className="lg:col-span-1 flex flex-col h-[calc(100vh-120px)] lg:h-auto">
-              <Card className="flex-1 flex flex-col shadow-lg border-blue-200 relative overflow-hidden h-full">
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-indigo-500"></div>
-                <CardHeader className="bg-blue-50/50 pb-4 border-b shrink-0">
+              <Card className="flex-1 flex flex-col shadow-lg border-indigo-200 relative overflow-hidden h-full">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-indigo-500"></div>
+                <CardHeader className="bg-indigo-50/50 pb-4 border-b shrink-0">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <Bot className="h-5 w-5 text-blue-600" />
+                      <Bot className="h-5 w-5 text-indigo-600" />
                       <CardTitle className="text-lg">AI Underwriting Assistant</CardTitle>
                     </div>
                     <Badge variant="outline" className="bg-white">GPT-4o</Badge>
@@ -168,16 +168,16 @@ export default function LoanDetailsPage({ params }: { params: { id: string } }) 
                 <CardContent ref={scrollRef} className="flex-1 overflow-auto p-4 space-y-4 bg-slate-50">
                   {messages.map((m) => (
                     <div key={m.id} className={`flex gap-3 ${m.role === 'user' ? 'flex-row-reverse' : ''}`}>
-                      <div className={`h-8 w-8 rounded-full flex items-center justify-center shrink-0 ${m.role === 'user' ? 'bg-slate-200' : 'bg-blue-100'}`}>
+                      <div className={`h-8 w-8 rounded-full flex items-center justify-center shrink-0 ${m.role === 'user' ? 'bg-slate-200' : 'bg-indigo-100'}`}>
                         {m.role === 'user' ? (
                           <span className="text-xs font-medium text-slate-600">You</span>
                         ) : (
-                          <Bot className="h-4 w-4 text-blue-600" />
+                          <Bot className="h-4 w-4 text-indigo-600" />
                         )}
                       </div>
                       <div className={`p-3 rounded-lg shadow-sm text-sm whitespace-pre-wrap max-w-[85%] ${
                         m.role === 'user' 
-                          ? 'bg-blue-600 text-white rounded-tr-none' 
+                          ? 'bg-indigo-600 text-white rounded-tr-none' 
                           : 'bg-white border text-slate-700 rounded-tl-none'
                       }`}>
                         {m.content}
@@ -187,11 +187,11 @@ export default function LoanDetailsPage({ params }: { params: { id: string } }) 
                   
                   {isLoading && (
                     <div className="flex gap-3">
-                      <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
-                        <Bot className="h-4 w-4 text-blue-600" />
+                      <div className="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center shrink-0">
+                        <Bot className="h-4 w-4 text-indigo-600" />
                       </div>
                       <div className="bg-white border p-3 rounded-lg rounded-tl-none shadow-sm text-sm text-slate-700 flex items-center gap-2">
-                        <Loader2 className="h-4 w-4 animate-spin text-blue-600" /> Thinking...
+                        <Loader2 className="h-4 w-4 animate-spin text-indigo-600" /> Thinking...
                       </div>
                     </div>
                   )}
@@ -216,7 +216,7 @@ export default function LoanDetailsPage({ params }: { params: { id: string } }) 
                       type="submit" 
                       size="sm" 
                       disabled={isLoading || !input.trim()}
-                      className="absolute right-1 top-1 bottom-1 bg-blue-600 hover:bg-blue-700 rounded h-auto"
+                      className="absolute right-1 top-1 bottom-1 bg-indigo-600 hover:bg-indigo-700 rounded h-auto"
                     >
                       Send
                     </Button>
