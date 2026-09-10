@@ -110,11 +110,21 @@ export default function Home() {
 
       <footer className="bg-slate-900 py-12 text-center text-slate-400">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Building2 className="h-6 w-6" />
-            <span className="font-bold text-xl text-white">InterCapital AI Demo</span>
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <Building2 className="h-6 w-6 text-emerald-400" />
+            <span className="font-bold text-xl text-white">InterCapital AI</span>
           </div>
-          <p>Created for the InterCapital Funding AI/Database Developer proposal.</p>
+          <p className="text-sm text-slate-400">
+            Commercial Real Estate Lending Intelligence &amp; Automated Underwriting · Built by{" "}
+            <a
+              href="https://github.com/exelentshakil"
+              target="_blank"
+              rel="noreferrer"
+              className="text-emerald-400 hover:text-emerald-300 underline"
+            >
+              Shakil Ahmed
+            </a>
+          </p>
         </div>
       </footer>
     </div>
